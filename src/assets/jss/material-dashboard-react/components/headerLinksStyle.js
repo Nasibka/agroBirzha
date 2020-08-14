@@ -99,7 +99,8 @@ const headerLinksStyle = theme => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%"
     },
-    display: "inline-block"
+    display: "flex",
+    alignItems:'center'
   },
   searchWrapper: {
     [theme.breakpoints.down("sm")]: {

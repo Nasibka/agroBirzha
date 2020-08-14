@@ -57,8 +57,22 @@ const customTabsStyle = {
     "& > svg,& > .material-icons": {
       verticalAlign: "middle",
       margin: "-1px 5px 0 0 !important"
-    }
+    },
+    borderRight: '1px solid #E0E0E0',
+    padding:' 0px 10px',
+
+    // '&:after': {
+    //   content: '""',
+    //   position: 'absolute',
+    //   bottom: 0,
+    //   left: 50,
+    //   width: '100%',
+    //   height: '1rem',
+    //   display: 'block',
+    //   background:'black'
+    // }
   }
+  
 };
 
 export default customTabsStyle;

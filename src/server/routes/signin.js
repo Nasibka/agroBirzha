@@ -24,31 +24,43 @@ router.route('/account/signup').post((req,res,next)=>{
     if(!firstName){
         return res.send({
             success:false,
-            message:'Error:First Name cannot be blank!'
+            type:'firstName',
+            message:'Укажите Имя'
         })
     }
     if(!lastName){
         return res.send({
             success:false,
-            message:'Error:Last Name cannot be blank!'
-        })
-    }
-    if(!phoneNumber){
-        return res.send({
-            success:false,
-            message:'Error:Phone Number cannot be blank!'
+            type:'lastName',
+            message:'Укажите Фамилию'
         })
     }
     if(!email){
         return res.send({
             success:false,
-            message:'Error:Email cannot be blank!'
+            type:'email',
+            message:'Укажите почту'
+        })
+    }
+    if(!phoneNumber){
+        return res.send({
+            success:false,
+            type:'phoneNumber',
+            message:'Укажите телефон'
+        })
+    }
+    if(phoneNumber.length<15){
+        return res.send({
+            success:false,
+            type:'phoneNumber',
+            message:'Неверный телефон'
         })
     }
     if(!password){
         return res.send({
             success:false,
-            message:'Error:Password cannot be blank!'
+            type:'password',
+            message:'Укажите пароль'
         })
     }
 
@@ -60,7 +72,11 @@ router.route('/account/signup').post((req,res,next)=>{
         if(err){
             return res.send('Server error')
         }else if (previousUsers.length>0){
-            return res.send("Account already exist")
+            return res.send({
+                success:false,
+                type:'email',
+                message:'Пользователь с этой почтой уже существует'
+            })
         }
     })
     const newUser = new User()
@@ -74,20 +90,8 @@ router.route('/account/signup').post((req,res,next)=>{
     console.log(newUser)
     newUser.save()
         .then(()=>res.json('newUser added'))
-        .catch(err=>res.status(400).json('Error '+err))
-    // newUser.save((err,user)=>{
-    //     if(err){
-    //         console.log()
-    //         return res.send({
-    //             success:false,
-    //             message:'Error:Server error!'
-    //         })
-    //     }
-    //     return res.send({
-    //         success:true,
-    //         message:':Signed up!'
-    //     })
-    // })
+        .catch(err=>res.status(400).json('kek '+err))
+
 })
 //Sign in
 router.route('/account/signin').post((req,res,next)=>{
@@ -100,13 +104,15 @@ router.route('/account/signin').post((req,res,next)=>{
     if(!email){
         return res.send({
             success:false,
-            message:'Error:Email cannot be blank!'
+            type:'email',
+            message:'Укажите почту'
         })
     }
     if(!password){
         return res.send({
             success:false,
-            message:'Error:Password cannot be blank!'
+            type:'password',
+            message:'Укажите пароль'
         })
     }
 
@@ -117,20 +123,23 @@ router.route('/account/signin').post((req,res,next)=>{
         if(err){
             return res.send({
                 success:false,
-                message:'Error:Server error!'
+                type:'serverError',
+                message:'Server Error'
             })
         }
         if (users.length!=1){
             return res.send({
                 success:false,
-                message:'Error:Invalid Email'
+                type:'email',
+                message:'Неверная почта'
             })  
         }
         const user = users[0]
         if(!user.validPassword(password)){
             return res.send({
                 success:false,
-                message:'Error:Invalid Password'
+                type:'password',
+                message:'Неверный пароль'
             })
         }
         //Otherwise correct user 

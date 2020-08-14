@@ -119,7 +119,7 @@ export default function Bids(props) {
             {tasks.map((row,index) => {
               return (
                   <TableRow hover className={classes.tableRow} key={index}
-                  onClick={(event) => handleClick(event, row.code)}>
+                  onClick={(event) => handleClick(event, row.code)} style={{cursor: 'pointer'}}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

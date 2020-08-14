@@ -12,16 +12,14 @@ const dashboardStyle = {
         backgroundSize:'cover',
         backgroundRepeat:'no-repeat',
         backgroundPosition:'center',
-        // backgroundColor:grayColor[0],
-        height:'80vh',
+        height:'92vh',
         width:'100%',
         padding:"0"
 
     },
     overlay:{
-        backgroundColor:"black",
-        opacity:'0.8',
-        height:'80vh',
+        backgroundColor:"rgba(0, 0, 0, 0.5)",
+        height:'92vh',
         padding:"0"
 
     },

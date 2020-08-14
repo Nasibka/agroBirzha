@@ -1,8 +1,9 @@
-import React,{ useEffect,useState }from "react";
+import React,{ useEffect,useState,useReducer }from "react";
 import axios from 'axios'
 import { useHistory } from "react-router-dom";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from 'react-redux'
 
 // @material-ui/icons
 
@@ -12,13 +13,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+// import { SET_USERNAME } from "../../actions/actions.js";
+// import userNameReducer from '../../reducers/reducers'
 
 import {
     getFromStorage,
@@ -34,17 +34,18 @@ export default function Entrance() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
   const [token, setToken]=useState('')
-//   const [isLoading, setIsLoading]=useState(true)
-//   const [signUpError, setSignUpError]=useState('')
-//   const [signInError, setSignInError]=useState('')
+  const [emailValid, setEmailValid]=useState('')
+  const [wrongPassword, setWrongPassword]=useState('')
+
+//   const [userNameState, dispatch] = useReducer(userNameReducer, []);
+
   const history = useHistory();
   useEffect(() => {
     const obj = getFromStorage('the_main_app')
     
     if(obj && obj.token){
-        // console.log(obj.token)
-
         //verify token
         axios.get('http://localhost:5000/users/account/verify?token='+obj.token)
         .then(res=>{
@@ -63,10 +64,25 @@ export default function Entrance() {
     axios.post('http://localhost:5000/users/account/signin',User)
     .then(res=>{
         if(res.data.success===false){
-            alert(res.data.message)
+            switch(res.data.type){
+                case 'email':
+                    setEmailValid(res.data.message)
+                    setWrongPassword('')
+                    break
+                case 'password':
+                    setWrongPassword(res.data.message)
+                    setEmailValid('')
+                    break
+            }
+            // alert(res.data.message)
         }else{
+            axios.get('http://localhost:5000/users/account/verify?token='+res.data.token)
+            .then(res=>{
+                // dispatch({ type: SET_USERNAME,username: res.data.userName});
+                setUserName(res.data.userName)
+            })
             setInStorage('the_main_app',{token:res.data.token})
-            history.push('/');
+            history.push('/admin/dashboard');
         }        
     })
   }
@@ -96,6 +112,7 @@ export default function Entrance() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
+                <div style={{color:'red'}}>{emailValid}</div>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -109,6 +126,7 @@ export default function Entrance() {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
+                <div style={{color:'red'}}>{wrongPassword}</div>
                 {/* <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}
                     label="Запомнить меня"

@@ -8,28 +8,24 @@ const userSchema = new Schema({
         required:true,
         unique:true,
         trim:true,
-        minlength:3
     },
     lastName:{
         type:String,
         required:true,
         unique:true,
         trim:true,
-        minlength:3
     },
     email:{
         type:String,
         required:true,
         unique:true,
         trim:true,
-        minlength:3
     },
     phoneNumber:{
         type:String,
         required:true,
         unique:true,
         trim:true,
-        minlength:3
     },
     password: { 
         type: String, 

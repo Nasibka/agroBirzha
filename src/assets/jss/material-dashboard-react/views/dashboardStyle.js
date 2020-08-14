@@ -42,13 +42,15 @@ const dashboardStyle = {
     paddingTop: "10px",
     marginBottom: "0"
   },
-  cardCategoryWhite: {
-    color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0"
-  },
+  // cardCategoryWhite: {
+  //   color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
+  //   margin: "0",
+  //   fontSize: "14px",
+  //   marginTop: "0",
+  //   marginBottom: "0",
+  //   display: 'flex',
+  //   alignItems: 'center',
+  // },
   cardTitle: {
     color: grayColor[2],
     marginTop: "0px",
@@ -83,7 +85,9 @@ const dashboardStyle = {
     fontWeight: "500",
     fontSize: "14px",
     marginTop: "0",
-    marginBottom: "0"
+    marginBottom: "0",
+    display:'flex',
+    alignItems:'center'
   },
   cardTitleWhite: {
     color: successColor[2],
@@ -93,7 +97,14 @@ const dashboardStyle = {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
-  }
+  },
+  popover: {
+    pointerEvents: 'none',
+  },
+  paper: {
+    padding:'0.5rem',
+    maxWidth:'12rem',
+  },
 };
 
 export default dashboardStyle;
